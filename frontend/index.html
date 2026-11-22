@@ -1,0 +1,73 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vijay AI Chatbot</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="app">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <h2>🤖 Vijay AI</h2>
+
+        <button id="newChat">+ New Chat</button>
+
+        <h3>Chat History</h3>
+
+        <input
+            type="text"
+            id="chatSearch"
+            placeholder="Search chats..."
+            autocomplete="off"
+        >
+
+        <div id="history"></div>
+    </aside>
+
+    <!-- Resizable Divider -->
+    <div id="sidebarResizer" title="Drag to resize sidebar"></div>
+
+    <!-- Main Chat -->
+    <main class="chat-area">
+
+        <header class="chat-header">
+            <div>
+                <h2>Vijay AI Assistant</h2>
+                <span class="online-status">● AI Online</span>
+            </div>
+        </header>
+
+        <section id="messages" class="messages">
+            <div class="welcome">
+                <h1>Hello! 👋</h1>
+                <p>Welcome to Vijay AI. How can I help you today?</p>
+            </div>
+        </section>
+
+        <form id="chatForm">
+            <input
+                type="text"
+                id="messageInput"
+                placeholder="Message Vijay AI..."
+                autocomplete="off"
+                required
+            >
+
+            <button type="submit" id="sendButton">
+                Send ➤
+            </button>
+        </form>
+
+        <p class="footer">Powered by Qwen AI · Ollama</p>
+
+    </main>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
