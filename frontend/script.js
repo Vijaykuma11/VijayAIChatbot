@@ -3,7 +3,7 @@
 // VIJAY AI CHATBOT - FRONTEND JAVASCRIPT
 // =====================================
 
-const API_URL = "http://127.0.0.1:8000";
+const API_URL = "http://10.154.155.126:8000";
 
 const newChatButton = document.getElementById("newChat");
 const historyBox = document.getElementById("history");
@@ -24,10 +24,10 @@ let loadingElement = null;
 // WELCOME SCREEN
 // =====================================
 
+
 function showWelcome() {
     messagesBox.innerHTML = `
         <div class="welcome">
-
             <div class="welcome-icon">🤖</div>
 
             <h1>Welcome to Vijay AI</h1>
@@ -36,46 +36,35 @@ function showWelcome() {
 
             <div class="suggestion-grid">
 
-                <button class="welcome-card"
-                    data-prompt="Teach me Python programming from beginner level.">
-
+                <button class="welcome-card" data-prompt="Teach me Python programming step by step.">
                     <span>🐍</span>
                     <strong>Learn Python</strong>
                     <small>Learn programming step by step</small>
-
                 </button>
 
-                <button class="welcome-card"
-                    data-prompt="Help me build a professional full-stack project.">
-
+                <button class="welcome-card" data-prompt="Help me build a full-stack web development project.">
                     <span>💻</span>
                     <strong>Build a Project</strong>
-                    <small>Create a web application</small>
-
+                    <small>Create your own web application</small>
                 </button>
 
-                <button class="welcome-card"
-                    data-prompt="Help me prepare for a Software Developer interview.">
-
+                <button class="welcome-card" data-prompt="Prepare me for a Software Developer interview.">
                     <span>🎯</span>
                     <strong>Interview Preparation</strong>
                     <small>Practice interview questions</small>
-
                 </button>
 
-                <button class="welcome-card"
-                    data-prompt="Explain Artificial Intelligence in simple language.">
-
+                <button class="welcome-card" data-prompt="Explain Artificial Intelligence with examples.">
                     <span>🧠</span>
                     <strong>Explore AI</strong>
                     <small>Understand artificial intelligence</small>
-
                 </button>
 
             </div>
         </div>
     `;
 }
+
 
 
 // =====================================
@@ -357,6 +346,15 @@ async function deleteConversation(id) {
             showWelcome();
 
         }
+
+messagesBox.addEventListener("click", (event) => {
+    const card = event.target.closest(".welcome-card");
+
+    if (!card) return;
+
+    messageInput.value = card.dataset.prompt;
+    chatForm.requestSubmit();
+});
 
         await loadHistory();
 
