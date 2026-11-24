@@ -2,11 +2,9 @@
 // =====================================
 // VIJAY AI CHATBOT - FRONTEND JAVASCRIPT
 // =====================================
-
 const API_URL = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
     ? "http://127.0.0.1:8000"
-    : "https://YOUR-BACKEND-NAME.onrender.com";
-
+    : "https://vijay-ai-backend.onrender.com";
 const newChatButton = document.getElementById("newChat");
 const historyBox = document.getElementById("history");
 const chatSearch = document.getElementById("chatSearch");
