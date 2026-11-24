@@ -1,10 +1,9 @@
-
 import os
 import requests
 
 GEMINI_API_URL = (
     "https://generativelanguage.googleapis.com/v1beta/"
-    "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite:generateContent"
+    "models/gemini-3.5-flash-lite:generateContent"
 )
 
 
@@ -12,32 +11,46 @@ def get_ai_response(messages: list[dict]) -> str:
     api_key = os.getenv("GEMINI_API_KEY")
 
     if not api_key:
+        print("Gemini API Error: GEMINI_API_KEY is not configured.")
         return "AI service is not configured yet."
 
-    try:
-        contents = []
+    contents = []
+    system_instructions = []
 
-        for message in messages[-10:]:
-            role = message.get("role", "user")
-            content = message.get("content", "")
+    for message in messages[-10:]:
+        role = message.get("role", "user")
+        content = str(message.get("content", "")).strip()
 
-            if role == "system":
-                role = "user"
-                content = "Instructions: " + content
-            elif role == "assistant":
-                role = "model"
-            else:
-                role = "user"
+        if not content:
+            continue
 
+        if role == "system":
+            system_instructions.append(content)
+            continue
+
+        gemini_role = "model" if role in ("assistant", "model") else "user"
+        part = {"text": content}
+
+        # Combine adjacent messages with the same role.
+        if contents and contents[-1]["role"] == gemini_role:
+            contents[-1]["parts"].append(part)
+        else:
             contents.append({
-                "role": role,
-                "parts": [{"text": str(content)}]
+                "role": gemini_role,
+                "parts": [part]
             })
 
-        payload = {
-            "contents": contents
+    if not contents:
+        return "Please enter a message."
+
+    payload = {"contents": contents}
+
+    if system_instructions:
+        payload["systemInstruction"] = {
+            "parts": [{"text": "\n".join(system_instructions)}]
         }
 
+    try:
         response = requests.post(
             GEMINI_API_URL,
             headers={
@@ -55,6 +68,10 @@ def get_ai_response(messages: list[dict]) -> str:
 
     except requests.exceptions.RequestException as error:
         print("Gemini API Error:", error)
+
+        if error.response is not None:
+            print("Gemini API Details:", error.response.text[:1000])
+
         return "Sorry, I cannot connect to the AI right now."
 
     except (KeyError, IndexError, TypeError) as error:
